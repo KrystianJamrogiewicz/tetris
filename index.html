@@ -9,10 +9,16 @@
 </head>
 
 <body>
-    <div class="gameArea">
-        <div class="block"></div>
+    <div id="game-screen">
+        <div class="game-area">
+            <!-- Blocks generate in script.js -->
+        </div>
+        <div class="game-info">
+            <button id="btn-start-stop">Play / Pauze</button>
+            <h3>Wynik: <span id="score-display">0</span></h3>
+            <!-- Span dZiała jak div ale zajmuje miejsce 1 linii -->
+        </div>
     </div>
-
     <script src="script.js"></script> <!-- Dodanie pliku kodem JS -->
 </body>
 
