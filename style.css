@@ -1,0 +1,13 @@
+.gameArea {
+	width: 300px;
+	height: 600px;
+	background-color: bisque;
+	display: flex; /* Dzieci tego kontenera będą elastycznie rozmieszczane */
+	display: -webkit-flex; /* Umożliwia działanie flex na przeglądarce Safari */
+	flex-wrap: wrap; /* Dzieci nie zmniejszają rozmiaru gdy brakuje miejsca, ale tworzą nowy wiersz */
+}
+.block {
+	width: 30px;
+	height: 30px;
+	background-color: chocolate;
+}
