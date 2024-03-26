@@ -31,3 +31,6 @@
 	justify-content: center; /* Wyśrodkowanie w poziomie */
 	align-items: center; /* Wyśrodkowanie w pionie */
 }
+.tetrominos {
+	background-color: yellow;
+}
