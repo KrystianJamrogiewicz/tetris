@@ -1,16 +1,23 @@
 // Funkcja zacznie się wykonywać gdy dokument się załaduje
 window.onload = () => {
 	for (let i = 0; i < 200; i++) {
-		gameArea = document.querySelector;
+		//gameArea = document.querySelector;
 		const block = document.createElement("div"); // block będzie tworzyła elementy typu div
-		block.setAttribute("class", "block"); // Dodanie atrybutu class który przyjmie wartość block
+		block.setAttribute("class", "block"); // Dodanie atrybutu class (poprzednie klasy zostaną nadpisane) który przyjmie wartość block
 		document.querySelector(".game-area").appendChild(block); // Document - plik HTML, querySelector - zwraca pierwszy element w doukmencie pasujący do selektora (klasa gameArea), appendChild - Dodaje element (block) w wcześniej wybranym miejscu (gameArea)
+	}
+	// Stworznie GRANICY MAPY nowego rzędu na dole o szerokości = szerokość mapy = 10 bloków
+	for (let i = 0; i < 10; i++) {
+		const block = document.createElement("div");
+		block.classList.add("taken"); // Dodanie nowej klasy taken - zajęty (nie nadpisuje starej)
+		document.querySelector(".game-area").appendChild(block);
 	}
 
 	const blockWidth = 30;
 	const blockHeight = 30;
 	const gridWidthBlocks = 10;
-	const blocks = [...document.querySelectorAll(".block")];
+	const blocks = [...document.querySelectorAll(".game-area div")];
+
 	const scoreDisplay = document.querySelector("#score-display");
 	const startStopBtn = document.querySelector("#btn-start-stop");
 
@@ -107,7 +114,7 @@ window.onload = () => {
 	const drawBlocks = () => {
 		// forEach - Wykona się dla każdego elementu tablicy currentBlock
 		currentBlock.forEach(el => {
-			blocks[currentPosition + el].classList.add("tetrominos"); // Dla każdego elementu tablicy currentBlock dodaj currentPosition i klasę tetrominos która zmieni styl elementów w CSS
+			blocks[currentPosition + el].classList.add("tetrominos"); // Dla każdego elementu tablicy currentBlock dodaj currentPosition i nową klasę (nie nadpisuje starej klasy) tetrominos która zmieni styl elementów w CSS
 		});
 	};
 
@@ -116,7 +123,34 @@ window.onload = () => {
 			blocks[currentPosition + el].classList.remove("tetrominos");
 		});
 	};
+
+	// Funkcja zatrzymuje bloki gdy dotkną najniższej krawędzi mapy
+	const freeze = () => {
+		// some sprawdza czy jakiś element z tablicy spełnia warunek jeśli tak to zawartość if wykona się dla całej tablicy
+		if (
+			currentBlock.some(el =>
+				blocks[currentPosition + el + gridWidthBlocks].classList.contains(
+					"taken" // sprawdza blok po niżej aktualnego zawiera (contains) klasę "taken"
+				)
+			)
+		) {
+			currentBlock.forEach(el => {
+				blocks[currentPosition + el].classList.add("taken");
+			});
+			currentPosition = 4; // Wybór aktualnej pozycji spawnowania bloków
+			randomTetromino = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
+			randomRotation = Math.floor(Math.random() * 4); // Losowanie liczb od 0 do 3
+			currentBlock = tetrominos[randomTetromino][randomRotation]; // Zmienna przechowująca aktualnie wylosowany wzór bloków
+			drawBlocks();
+		}
+	};
+	const moveDown = () => {
+		removeBlock();
+		currentPosition += gridWidthBlocks; // Do aktualnej jpozycji dodać szerokość planszy co przemieści klocek o 1 kratkę w dół
+		drawBlocks();
+		freeze();
+	};
+
 	drawBlocks();
-	console.log(currentBlock);
-	// removeBlock();
+	setInterval(moveDown, 1000);
 };
