@@ -151,6 +151,63 @@ window.onload = () => {
 		freeze();
 	};
 
+	const moveLeft = () => {
+		removeBlock();
+		const isAtLeftEdge = currentBlock.some(
+			el => (currentPosition + el) % gridWidthBlocks === 0
+		); // Stała zwróci true lub false, % - modulus zwraca resztę z dzielenia
+
+		if (!isAtLeftEdge) {
+			currentPosition -= 1;
+		}
+
+		// Sprawdza, czy poruszany klocek nie dotyka zamrożonych klocków
+		if (
+			currentBlock.some(el =>
+				blocks[currentPosition + el].classList.contains("taken")
+			)
+		) {
+			currentPosition += 1;
+		}
+		drawBlocks();
+	};
+	const moveRight = () => {
+		removeBlock();
+		const isAtRightEdge = currentBlock.some(
+			el => (currentPosition + el) % gridWidthBlocks === gridWidthBlocks - 1
+		);
+
+		if (!isAtRightEdge) {
+			currentPosition += 1;
+		}
+
+		if (
+			currentBlock.some(el =>
+				blocks[currentPosition + el].classList.contains("taken")
+			)
+		) {
+			currentPosition -= 1;
+		}
+		drawBlocks();
+	};
+
+	const rotate = () => {
+		removeBlock();
+		randomRotation += 1;
+		if (randomRotation >= currentBlock.length) randomRotation = 0;
+		currentBlock = tetrominos[randomTetromino][randomRotation];
+		drawBlocks();
+	};
+
+	const controle = event => {
+		if (event.keyCode === 37) moveLeft();
+		if (event.keyCode === 38) rotate();
+		if (event.keyCode === 39) moveRight();
+		if (event.keyCode === 40) moveDown();
+	};
+
+	// GAME LOGIC
+	document.addEventListener("keyup", controle); // Funkcja nasłuchująca momentu puszczenia przycisku i gdy to się stanie uruchamia funkcję "controle" z argumentem równym kod przycisku
 	drawBlocks();
 	setInterval(moveDown, 1000);
 };
