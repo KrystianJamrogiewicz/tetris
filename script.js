@@ -12,12 +12,20 @@ window.onload = () => {
 		block.classList.add("taken"); // Dodanie nowej klasy taken - zajęty (nie nadpisuje starej)
 		document.querySelector(".game-area").appendChild(block);
 	}
+	// Stworzenie okna podglądu dla następnego tetromino
+	for (let i = 0; i < 16; i++) {
+		const block = document.createElement("div");
+		block.classList.add("nextTetromino");
+		document.querySelector(".up-next").appendChild(block);
+	}
 
 	const blockWidth = 30;
 	const blockHeight = 30;
 	const gridWidthBlocks = 10;
-	const blocks = [...document.querySelectorAll(".game-area div")];
-
+	const upNextWidthBlocks = 4;
+	let nextRandom = 0;
+	const blocks = [...document.querySelectorAll(".game-area div")]; // Zapis jako tablica
+	const upNext = Array.from(document.querySelectorAll(".up-next div")); // Zapis jako tablica
 	const scoreDisplay = document.querySelector("#score-display");
 	const startStopBtn = document.querySelector("#btn-start-stop");
 
@@ -105,6 +113,24 @@ window.onload = () => {
 		oTetromino,
 		iTetromino,
 	];
+	// Warianty dla okna podglądu następnego tetromino
+	const upNextTetrominos = [
+		[1, upNextWidthBlocks + 1, upNextWidthBlocks * 2 + 1, 2],
+		[
+			upNextWidthBlocks * 2,
+			upNextWidthBlocks + 1,
+			upNextWidthBlocks * 2 + 1,
+			upNextWidthBlocks + 2,
+		],
+		[1, upNextWidthBlocks, upNextWidthBlocks + 1, upNextWidthBlocks + 2],
+		[0, 1, upNextWidthBlocks, upNextWidthBlocks + 1],
+		[
+			1,
+			upNextWidthBlocks + 1,
+			upNextWidthBlocks * 2 + 1,
+			upNextWidthBlocks * 3 + 1,
+		],
+	];
 	let currentPosition = 4; // Wybór aktualnej pozycji spawnowania bloków
 	let randomTetromino = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
 	let randomRotation = Math.floor(Math.random() * 4); // Losowanie liczb od 0 do 3
@@ -124,6 +150,14 @@ window.onload = () => {
 		});
 	};
 
+	const upNextDisplay = () => {
+		upNext.forEach(el => {
+			el.classList.remove("tetrominos");
+		});
+		upNextTetrominos[nextRandom].forEach(el => {
+			upNext[el].classList.add("tetrominos");
+		});
+	};
 	// Funkcja zatrzymuje bloki gdy dotkną najniższej krawędzi mapy
 	const freeze = () => {
 		// some sprawdza czy jakiś element z tablicy spełnia warunek jeśli tak to zawartość if wykona się dla całej tablicy
@@ -137,11 +171,14 @@ window.onload = () => {
 			currentBlock.forEach(el => {
 				blocks[currentPosition + el].classList.add("taken");
 			});
+			randomTetromino = nextRandom;
+
 			currentPosition = 4; // Wybór aktualnej pozycji spawnowania bloków
-			randomTetromino = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
+			nextRandom = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
 			randomRotation = Math.floor(Math.random() * 4); // Losowanie liczb od 0 do 3
 			currentBlock = tetrominos[randomTetromino][randomRotation]; // Zmienna przechowująca aktualnie wylosowany wzór bloków
 			drawBlocks();
+			upNextDisplay();
 		}
 	};
 	const moveDown = () => {
@@ -209,5 +246,6 @@ window.onload = () => {
 	// GAME LOGIC
 	document.addEventListener("keyup", controle); // Funkcja nasłuchująca momentu puszczenia przycisku i gdy to się stanie uruchamia funkcję "controle" z argumentem równym kod przycisku
 	drawBlocks();
+	upNextDisplay();
 	setInterval(moveDown, 1000);
 };
