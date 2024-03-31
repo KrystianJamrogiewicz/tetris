@@ -34,8 +34,10 @@
 	margin-left: 20px;
 }
 #btn-start-stop {
-	padding: 0.5rem 0.5rem; /* padding tworzy przestrzeń w okół elementu rem - jednostka zależna od wielkości liter */
-	background-color: rgba(141, 162, 97, 0.948);
+	/*padding: 30px 30px;  padding tworzy przestrzeń w okół elementu rem - jednostka zależna od wielkości liter */
+	width: 110px;
+	height: 55px;
+	background-color: green;
 	border-radius: 20px;
 	color: white;
 	font-weight: 1000;

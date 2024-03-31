@@ -28,6 +28,7 @@ window.onload = () => {
 	const upNext = Array.from(document.querySelectorAll(".up-next div")); // Zapis jako tablica
 	const scoreDisplay = document.querySelector("#score-display");
 	const startStopBtn = document.querySelector("#btn-start-stop");
+	let timer1;
 
 	// Jak czytać numery pól:
 	//     0   1   2   3 ... 9
@@ -172,7 +173,6 @@ window.onload = () => {
 				blocks[currentPosition + el].classList.add("taken");
 			});
 			randomTetromino = nextRandom;
-
 			currentPosition = 4; // Wybór aktualnej pozycji spawnowania bloków
 			nextRandom = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
 			randomRotation = Math.floor(Math.random() * 4); // Losowanie liczb od 0 do 3
@@ -244,8 +244,20 @@ window.onload = () => {
 	};
 
 	// GAME LOGIC
-	document.addEventListener("keyup", controle); // Funkcja nasłuchująca momentu puszczenia przycisku i gdy to się stanie uruchamia funkcję "controle" z argumentem równym kod przycisku
-	drawBlocks();
-	upNextDisplay();
-	setInterval(moveDown, 1000);
+	startStopBtn.addEventListener("click", e => {
+		if (timer1) {
+			startStopBtn.style.backgroundColor = "green";
+			startStopBtn.textContent = "Play";
+			clearInterval(timer1);
+			document.removeEventListener("keyup", controle);
+			timer1 = null;
+		} else {
+			startStopBtn.style.backgroundColor = "red";
+			startStopBtn.textContent = "Pause";
+			document.addEventListener("keyup", controle); // Funkcja nasłuchująca momentu puszczenia przycisku i gdy to się stanie uruchamia funkcję "controle" z argumentem równym kod przycisku
+			drawBlocks();
+			timer1 = setInterval(moveDown, 1000);
+			upNextDisplay();
+		}
+	});
 };
