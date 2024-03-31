@@ -24,11 +24,12 @@ window.onload = () => {
 	const gridWidthBlocks = 10;
 	const upNextWidthBlocks = 4;
 	let nextRandom = 0;
-	const blocks = [...document.querySelectorAll(".game-area div")]; // Zapis jako tablica
+	let blocks = [...document.querySelectorAll(".game-area div")]; // Zapis jako tablica
 	const upNext = Array.from(document.querySelectorAll(".up-next div")); // Zapis jako tablica
 	const scoreDisplay = document.querySelector("#score-display");
 	const startStopBtn = document.querySelector("#btn-start-stop");
 	let timer1;
+	let score = 0;
 
 	// Jak czytać numery pól:
 	//     0   1   2   3 ... 9
@@ -179,6 +180,7 @@ window.onload = () => {
 			currentBlock = tetrominos[randomTetromino][randomRotation]; // Zmienna przechowująca aktualnie wylosowany wzór bloków
 			drawBlocks();
 			upNextDisplay();
+			addScore();
 		}
 	};
 	const moveDown = () => {
@@ -241,6 +243,41 @@ window.onload = () => {
 		if (event.keyCode === 38) rotate();
 		if (event.keyCode === 39) moveRight();
 		if (event.keyCode === 40) moveDown();
+	};
+
+	const addScore = () => {
+		// Podział mapy na rzędy poziome
+		for (let i = 0; i < 199; i += gridWidthBlocks) {
+			const row = [
+				i,
+				i + 1,
+				i + 2,
+				i + 3,
+				i + 4,
+				i + 5,
+				i + 6,
+				i + 7,
+				i + 8,
+				i + 9,
+			];
+			// Sprawdza, czy każdy element tablicy row spełnia warunek i wtedy wykonuje polecenie dla całej tablicy
+			if (row.every(el => blocks[el].classList.contains("taken"))) {
+				score += 10;
+				scoreDisplay.textContent = score;
+
+				row.forEach(el => {
+					blocks[el].classList.remove("taken");
+					blocks[el].classList.remove("tetrominos");
+				});
+				// splice usówa elementy z tablicy: (od i do gridWidthBlocks) i zwraca usunięte elementy
+				const blocksRemoved = blocks.splice(i, gridWidthBlocks);
+				// concat łączy tablicę blocksRemoved z tablicą blocks i zwraca połączoną tablice
+				blocks = blocksRemoved.concat(blocks);
+				blocks.forEach(block => {
+					document.querySelector(".game-area").appendChild(block);
+				});
+			}
+		}
 	};
 
 	// GAME LOGIC
