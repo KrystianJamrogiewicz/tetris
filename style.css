@@ -4,7 +4,7 @@ body {
 .game-area {
 	width: 300px;
 	height: 600px;
-	background-color: chocolate;
+	background-color: rgb(182, 176, 176);
 	display: flex; /* Dzieci tego kontenera będą elastycznie rozmieszczane */
 	display: -webkit-flex; /* Umożliwia działanie flex na przeglądarce Safari */
 	flex-wrap: wrap; /* Dzieci nie zmniejszają rozmiaru gdy brakuje miejsca, ale tworzą nowy wiersz */

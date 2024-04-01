@@ -19,8 +19,6 @@ window.onload = () => {
 		document.querySelector(".up-next").appendChild(block);
 	}
 
-	const blockWidth = 30;
-	const blockHeight = 30;
 	const gridWidthBlocks = 10;
 	const upNextWidthBlocks = 4;
 	let nextRandom = 0;
@@ -133,6 +131,7 @@ window.onload = () => {
 			upNextWidthBlocks * 3 + 1,
 		],
 	];
+	const colors = ["#02648a", "#210074", "#3e18b8", "#192196", "#1c408d"]; // Tablica kolorów kod hex
 	let currentPosition = 4; // Wybór aktualnej pozycji spawnowania bloków
 	let randomTetromino = Math.floor(Math.random() * tetrominos.length); // Losowanie liczb od 0 do tetrominos.length - 1
 	let randomRotation = Math.floor(Math.random() * 4); // Losowanie liczb od 0 do 3
@@ -143,12 +142,15 @@ window.onload = () => {
 		// forEach - Wykona się dla każdego elementu tablicy currentBlock
 		currentBlock.forEach(el => {
 			blocks[currentPosition + el].classList.add("tetrominos"); // Dla każdego elementu tablicy currentBlock dodaj currentPosition i nową klasę (nie nadpisuje starej klasy) tetrominos która zmieni styl elementów w CSS
+			blocks[currentPosition + el].style.backgroundColor =
+				colors[randomTetromino];
 		});
 	};
 
 	const removeBlock = () => {
 		currentBlock.forEach(el => {
 			blocks[currentPosition + el].classList.remove("tetrominos");
+			blocks[currentPosition + el].style.backgroundColor = ""; // Usunięcie koloru
 		});
 	};
 
@@ -269,6 +271,7 @@ window.onload = () => {
 				row.forEach(el => {
 					blocks[el].classList.remove("taken");
 					blocks[el].classList.remove("tetrominos");
+					blocks[el].style.backgroundColor = "";
 				});
 				// splice usówa elementy z tablicy: (od i do gridWidthBlocks) i zwraca usunięte elementy
 				const blocksRemoved = blocks.splice(i, gridWidthBlocks);
@@ -300,6 +303,7 @@ window.onload = () => {
 				if (i < 200) {
 					el.classList.remove("taken");
 					el.classList.remove("tetrominos");
+					el.style.backgroundColor = "";
 				}
 			});
 		}
