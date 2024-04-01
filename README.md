@@ -5,5 +5,4 @@ W grze należy się poruszać strzałkami: prawo, lewo, dół, strzałka w gór�
 Interfejs składa się z: pola gry, przycisku Start / Pause / Play, wyświetlacza wyniku oraz podglądu następnego bloku jaki zostanie wygenerowany.
 
 W przyszłości zostanie dodany:
-local storage - do przechowywania wyników w pamięci przeglądarki
-przycisk reset - rozpoczynający grę od nowa.
+local storage - do przechowywania wyników w pamięci przeglądarki, przycisk reset - rozpoczynający grę od nowa.
