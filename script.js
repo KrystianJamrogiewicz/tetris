@@ -180,6 +180,7 @@ window.onload = () => {
 			currentBlock = tetrominos[randomTetromino][randomRotation]; // Zmienna przechowująca aktualnie wylosowany wzór bloków
 			drawBlocks();
 			upNextDisplay();
+			gameOver();
 			addScore();
 		}
 	};
@@ -280,7 +281,34 @@ window.onload = () => {
 		}
 	};
 
+	const gameOver = () => {
+		if (
+			currentBlock.some(el =>
+				blocks[currentPosition + el].classList.contains("taken")
+			)
+		) {
+			clearInterval(timer1);
+			document.removeEventListener("keyup", controle);
+			timer1 = null;
+			document
+				.querySelector("#game-over-text")
+				.setAttribute("style", "visibility: visible");
+			startStopBtn.style.backgroundColor = "green";
+			startStopBtn.textContent = "START";
+			score = 0;
+			blocks.forEach((el, i) => {
+				if (i < 200) {
+					el.classList.remove("taken");
+					el.classList.remove("tetrominos");
+				}
+			});
+		}
+	};
+
 	// GAME LOGIC
+	document
+		.querySelector("#game-over-text")
+		.setAttribute("style", "visibility: hidden");
 	startStopBtn.addEventListener("click", e => {
 		if (timer1) {
 			startStopBtn.style.backgroundColor = "green";
@@ -289,6 +317,10 @@ window.onload = () => {
 			document.removeEventListener("keyup", controle);
 			timer1 = null;
 		} else {
+			scoreDisplay.textContent = score;
+			document
+				.querySelector("#game-over-text")
+				.setAttribute("style", "visibility: hidden");
 			startStopBtn.style.backgroundColor = "red";
 			startStopBtn.textContent = "Pause";
 			document.addEventListener("keyup", controle); // Funkcja nasłuchująca momentu puszczenia przycisku i gdy to się stanie uruchamia funkcję "controle" z argumentem równym kod przycisku
