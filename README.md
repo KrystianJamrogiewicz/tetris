@@ -1,5 +1,5 @@
 # tetris
-Gra typu Tetris wykonana w technologii: JavaScript, HTML, CSS.  
+Gra typu Tetris wykonana w technologii: JavaScript, HTML, CSS.    
 Założenia:
 - Przycisk Start / Pause / Play - służy do rozpoczynania i pauzowania gry.
 - W grze należy się poruszać strzałkami: prawo, lewo, dół, strzałka w górę obraca blok.
