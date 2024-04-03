@@ -1,4 +1,4 @@
-# tetris
+# tetrisGame
 Gra typu Tetris wykonana w technologii: JavaScript, HTML, CSS.
 
 
