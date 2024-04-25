@@ -2,7 +2,7 @@
 A simple tetris game made with: JavaScript, HTML, CSS.
 
 
-![2024-04-25_22h24_45](https://github.com/KrystianJamrogiewicz/tetrisGame/assets/155767356/9247d190-cfee-4dea-a292-54c900dbe21b)
+<p align="center"> <img src="https://github.com/KrystianJamrogiewicz/tetrisGame/assets/155767356/9247d190-cfee-4dea-a292-54c900dbe21b" alt="Image Description"> </p>
 
 
 Features:
